@@ -1,274 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Vertical Portfolio</title>
-    <style>
-        /* Reset and Basic Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            display: flex;
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f0f0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Navigation Styles */
-        .nav {
-            width: 200px;
-            background-color: #333;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 50px;
-            position: fixed;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            transition: width 0.3s;
-            z-index: 1000;
-        }
-
-        .nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 15px 0;
-            font-size: 18px;
-            transition: color 0.3s, transform 0.3s;
-        }
-
-        .nav a:hover {
-            color: #ff6347;
-            transform: scale(1.1);
-        }
-
-        /* Main Content Styles */
-        .main {
-            flex: 1;
-            margin-right: 200px; /* To accommodate the fixed navigation */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            padding: 20px;
-        }
-
-        /* Carousel Container */
-        .carousel-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 1000px;
-            height: 80vh;
-            position: relative;
-        }
-
-        /* Main Project Styles */
-        .main-project {
-            flex: 2;
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.6s ease, opacity 0.6s ease;
-            position: relative;
-            z-index: 2;
-            cursor: pointer;
-        }
-
-        .main-project img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 15px;
-        }
-
-        /* Column Projects Styles */
-        .column-projects {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-
-        .column-project {
-            width: 80%;
-            height: 100px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.6s ease, opacity 0.6s ease, filter 0.6s ease;
-            cursor: pointer;
-            filter: blur(2px);
-            opacity: 0.6;
-        }
-
-        .column-project img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        /* Highlighted Column Project */
-        .column-project.active {
-            transform: scale(1.05);
-            opacity: 1;
-            filter: blur(0);
-            z-index: 3;
-        }
-
-        /* Grid Layout Styles */
-        .grid {
-            display: none;
-            width: 90%;
-            max-width: 1200px;
-            height: 80vh;
-            flex-wrap: wrap;
-            gap: 20px;
-            overflow-y: auto;
-            padding: 20px;
-            justify-content: center;
-        }
-
-        .grid .project {
-            width: calc(33.333% - 20px);
-            height: 200px;
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
-            cursor: pointer;
-            filter: blur(0);
-            opacity: 1;
-        }
-
-        .grid .project img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 15px;
-        }
-
-        /* Toggle Button Styles */
-        .toggle-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background-color: #ff6347;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 10;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        .toggle-btn:hover {
-            background-color: #ff4500;
-            transform: scale(1.05);
-        }
-
-        /* Scrollbar Styles for Column Projects */
-        .column-projects::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .column-projects::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        .column-projects::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-
-        .column-projects::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 1200px) {
-            .grid .project {
-                width: calc(50% - 20px);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .carousel-container {
-                flex-direction: column;
-                height: auto;
-            }
-
-            .main-project {
-                width: 100%;
-                height: 200px;
-            }
-
-            .column-projects {
-                flex-direction: row;
-                overflow-x: auto;
-                overflow-y: hidden;
-                width: 100%;
-                padding: 10px 0;
-            }
-
-            .column-project {
-                width: 150px;
-                height: 100px;
-            }
-
-            .nav {
-                width: 150px;
-            }
-
-            .nav a {
-                font-size: 16px;
-            }
-
-            .grid .project {
-                width: 100%;
-                height: 150px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
     <!-- Toggle Button -->
     <button class="toggle-btn">Grid View</button>
 
     <!-- Navigation -->
-    <nav class="nav">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+    <nav class="nav" aria-label="Main Navigation">
+        <a href="#home" aria-label="Home">Home</a>
+        <a href="#about" aria-label="About">About</a>
+        <a href="#projects" aria-label="Projects">Projects</a>
+        <a href="#contact" aria-label="Contact">Contact</a>
     </nav>
 
     <!-- Main Content -->
@@ -277,216 +27,90 @@
         <div class="carousel-container">
             <!-- Main Project -->
             <div class="main-project" id="main-project">
-                <img src="https://via.placeholder.com/600x400?text=Project+1" alt="Project 1">
+                <img src="https://via.placeholder.com/600x400?text=Project+1" alt="Project 1" loading="lazy">
             </div>
 
             <!-- Column Projects -->
             <div class="column-projects" id="column-projects">
                 <div class="column-project" data-index="1">
-                    <img src="https://via.placeholder.com/150x100?text=Project+2" alt="Project 2">
+                    <img src="https://via.placeholder.com/150x100?text=Project+2" alt="Project 2" loading="lazy">
                 </div>
                 <div class="column-project" data-index="2">
-                    <img src="https://via.placeholder.com/150x100?text=Project+3" alt="Project 3">
+                    <img src="https://via.placeholder.com/150x100?text=Project+3" alt="Project 3" loading="lazy">
                 </div>
                 <div class="column-project" data-index="3">
-                    <img src="https://via.placeholder.com/150x100?text=Project+4" alt="Project 4">
+                    <img src="https://via.placeholder.com/150x100?text=Project+4" alt="Project 4" loading="lazy">
                 </div>
                 <div class="column-project" data-index="4">
-                    <img src="https://via.placeholder.com/150x100?text=Project+5" alt="Project 5">
+                    <img src="https://via.placeholder.com/150x100?text=Project+5" alt="Project 5" loading="lazy">
                 </div>
                 <div class="column-project" data-index="5">
-                    <img src="https://via.placeholder.com/150x100?text=Project+6" alt="Project 6">
+                    <img src="https://via.placeholder.com/150x100?text=Project+6" alt="Project 6" loading="lazy">
                 </div>
                 <div class="column-project" data-index="6">
-                    <img src="https://via.placeholder.com/150x100?text=Project+7" alt="Project 7">
+                    <img src="https://via.placeholder.com/150x100?text=Project+7" alt="Project 7" loading="lazy">
                 </div>
             </div>
         </div>
 
         <!-- Grid View -->
+
         <div class="grid" id="grid-view">
             <div class="project" data-index="0">
-                <img src="https://via.placeholder.com/300x200?text=Project+1" alt="Project 1">
+                <img src="https://via.placeholder.com/300x200?text=Project+1" alt="Project 1" loading="lazy">
             </div>
             <div class="project" data-index="1">
-                <img src="https://via.placeholder.com/300x200?text=Project+2" alt="Project 2">
+                <img src="https://via.placeholder.com/300x200?text=Project+2" alt="Project 2" loading="lazy">
             </div>
             <div class="project" data-index="2">
-                <img src="https://via.placeholder.com/300x200?text=Project+3" alt="Project 3">
+                <img src="https://via.placeholder.com/300x200?text=Project+3" alt="Project 3" loading="lazy">
             </div>
             <div class="project" data-index="3">
-                <img src="https://via.placeholder.com/300x200?text=Project+4" alt="Project 4">
+                <img src="https://via.placeholder.com/300x200?text=Project+4" alt="Project 4" loading="lazy">
             </div>
             <div class="project" data-index="4">
-                <img src="https://via.placeholder.com/300x200?text=Project+5" alt="Project 5">
+                <img src="https://via.placeholder.com/300x200?text=Project+5" alt="Project 5" loading="lazy">
             </div>
             <div class="project" data-index="5">
-                <img src="https://via.placeholder.com/300x200?text=Project+6" alt="Project 6">
+                <img src="https://via.placeholder.com/300x200?text=Project+6" alt="Project 6" loading="lazy">
             </div>
             <div class="project" data-index="6">
-                <img src="https://via.placeholder.com/300x200?text=Project+7" alt="Project 7">
+                <img src="https://via.placeholder.com/300x200?text=Project+7" alt="Project 7" loading="lazy">
             </div>
         </div>
     </div>
 
-    <script>
-        const toggleBtn = document.querySelector('.toggle-btn');
-        const carouselContainer = document.querySelector('.carousel-container');
-        const mainProject = document.getElementById('main-project');
-        const columnProjects = document.getElementById('column-projects');
-        const gridView = document.getElementById('grid-view');
-        const allProjects = [
-            { src: 'https://via.placeholder.com/600x400?text=Project+1', alt: 'Project 1' },
-            { src: 'https://via.placeholder.com/600x400?text=Project+2', alt: 'Project 2' },
-            { src: 'https://via.placeholder.com/600x400?text=Project+3', alt: 'Project 3' },
-            { src: 'https://via.placeholder.com/600x400?text=Project+4', alt: 'Project 4' },
-            { src: 'https://via.placeholder.com/600x400?text=Project+5', alt: 'Project 5' },
-            { src: 'https://via.placeholder.com/600x400?text=Project+6', alt: 'Project 6' },
-            { src: 'https://via.placeholder.com/600x400?text=Project+7', alt: 'Project 7' }
-        ];
-        let currentIndex = 0;
-        let isGrid = false;
-        let isAnimating = false;
+    <!-- Modal Structure -->
+    <div id="project-modal" class="modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <span class="close-btn" aria-label="Close Modal">&times;</span>
 
-        // Initialize Main Project
-        function updateMainProject(index) {
-            mainProject.style.opacity = 0;
-            mainProject.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-                mainProject.innerHTML = `<img src="${allProjects[index].src}" alt="${allProjects[index].alt}">`;
-                mainProject.style.transform = 'scale(1)';
-                mainProject.style.opacity = 1;
-            }, 300);
-        }
+            <!-- Image Gallery -->
+            <div class="image-gallery">
+                <div class="gallery-images" id="gallery-images">
+                    <!-- Images will be inserted dynamically -->
+                </div>
+                <div class="gallery-nav">
+                    <span id="prev-image" aria-label="Previous Image">&#10094;</span>
+                    <span id="next-image" aria-label="Next Image">&#10095;</span>
+                </div>
+            </div>
 
-        // Initialize Column Projects
-        function updateColumnProjects() {
-            const column = Array.from(columnProjects.children);
-            column.forEach((project, idx) => {
-                const projectIndex = (currentIndex + idx + 1) % allProjects.length;
-                project.querySelector('img').src = allProjects[projectIndex].src;
-                project.querySelector('img').alt = allProjects[projectIndex].alt;
-                project.classList.remove('active');
-                project.style.opacity = 0.6;
-                project.style.filter = 'blur(2px)';
-                project.style.transform = 'scale(0.8)';
-            });
-        }
+            <!-- Description Section -->
+            <div class="description-section">
+                <!-- Key Statistics -->
+                <div class="stats" id="stats">
+                    <!-- Statistics will be inserted dynamically -->
+                </div>
+                <!-- Text Description -->
+                <div class="description" id="description">
+                    <!-- Description will be inserted dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-        // Initial Load
-        updateMainProject(currentIndex);
-        updateColumnProjects();
-
-        // Toggle Button Functionality
-        toggleBtn.addEventListener('click', () => {
-            isGrid = !isGrid;
-            if (isGrid) {
-                carouselContainer.style.display = 'none';
-                gridView.style.display = 'flex';
-                toggleBtn.textContent = 'Carousel View';
-            } else {
-                carouselContainer.style.display = 'flex';
-                gridView.style.display = 'none';
-                toggleBtn.textContent = 'Grid View';
-            }
-        });
-
-        // Handle Scroll Events for Carousel Navigation
-        window.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            if (isAnimating) return;
-            if (e.deltaY > 0) {
-                navigateNext();
-            } else {
-                navigatePrev();
-            }
-        }, { passive: false });
-
-        // Handle Touch Events for Mobile
-        let touchStartY = 0;
-        window.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].clientY;
-        });
-
-        window.addEventListener('touchend', (e) => {
-            const touchEndY = e.changedTouches[0].clientY;
-            const deltaY = touchEndY - touchStartY;
-            if (deltaY > 50) {
-                navigatePrev();
-            } else if (deltaY < -50) {
-                navigateNext();
-            }
-        });
-
-        // Handle Click Events on Column Projects
-        const columnProjectElements = document.querySelectorAll('.column-project');
-        columnProjectElements.forEach(project => {
-            project.addEventListener('click', () => {
-                const index = parseInt(project.getAttribute('data-index'));
-                if (index !== currentIndex && !isAnimating) {
-                    navigateTo(index);
-                }
-            });
-        });
-
-        // Handle Click Events on Grid Projects
-        const gridProjectElements = document.querySelectorAll('.grid .project');
-        gridProjectElements.forEach(project => {
-            project.addEventListener('click', () => {
-                const index = parseInt(project.getAttribute('data-index'));
-                if (index !== currentIndex && !isAnimating) {
-                    navigateTo(index);
-                }
-            });
-        });
-
-        // Handle Arrow Keys for Navigation
-        window.addEventListener('keydown', (e) => {
-            if (isGrid) return; // Do not navigate carousel when grid is active
-            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-                navigateNext();
-            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-                navigatePrev();
-            }
-        });
-
-        // Navigation Functions
-        function navigateNext() {
-            isAnimating = true;
-            currentIndex = (currentIndex + 1) % allProjects.length;
-            updateMainProject(currentIndex);
-            updateColumnProjects();
-            setTimeout(() => {
-                isAnimating = false;
-            }, 600); // Match with CSS transition duration
-        }
-
-        function navigatePrev() {
-            isAnimating = true;
-            currentIndex = (currentIndex - 1 + allProjects.length) % allProjects.length;
-            updateMainProject(currentIndex);
-            updateColumnProjects();
-            setTimeout(() => {
-                isAnimating = false;
-            }, 600); // Match with CSS transition duration
-        }
-
-        function navigateTo(index) {
-            isAnimating = true;
-            currentIndex = index;
-            updateMainProject(currentIndex);
-            updateColumnProjects();
-            setTimeout(() => {
-                isAnimating = false;
-            }, 600); // Match with CSS transition duration
-        }
-
-        // Handle Click on Main Project to Navigate Next
-        mainProject.addEventListener('click', () => {
-            if (!isGrid && !isAnimating) {
-                navigateNext();
-            }
-        });
-    </script>
+    <script src="scripts.js" defer></script>
 </body>
+
 </html>

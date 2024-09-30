@@ -1,0 +1,429 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Navigation Styles */
+.nav {
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transition: width 0.3s;
+    z-index: 1000;
+}
+
+.nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 15px 0;
+    font-size: 18px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.nav a:hover {
+    color: #ff6347;
+    transform: scale(1.1);
+}
+
+/* Main Content Styles */
+.main {
+    flex: 1;
+    margin-right: 200px;
+    /* To accommodate the fixed navigation */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+}
+
+/* Carousel Container */
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1000px;
+    height: 80vh;
+    position: relative;
+}
+
+/* Main Project Styles */
+.main-project {
+    flex: 2;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.main-project img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+/* Column Projects Styles */
+.column-projects {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.column-project {
+    width: 80%;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.6s ease, opacity 0.6s ease, filter 0.6s ease;
+    cursor: pointer;
+    filter: blur(2px);
+    opacity: 0.6;
+}
+
+.column-project img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Highlighted Column Project */
+.column-project.active {
+    transform: scale(1.05);
+    opacity: 1;
+    filter: blur(0);
+    z-index: 3;
+}
+
+/* Grid Layout Styles */
+.grid {
+    display: none;
+    width: 90%;
+    max-width: 1200px;
+    height: 80vh;
+    flex-wrap: wrap;
+    gap: 20px;
+    overflow-y: auto;
+    padding: 20px;
+    justify-content: center;
+}
+
+.grid .project {
+    width: calc(33.333% - 20px);
+    height: 200px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+    filter: blur(0);
+    opacity: 1;
+}
+
+.grid .project img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+/* Toggle Button Styles */
+.toggle-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #ff6347;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.toggle-btn:hover {
+    background-color: #ff4500;
+    transform: scale(1.05);
+}
+
+/* Scrollbar Styles for Column Projects */
+.column-projects::-webkit-scrollbar {
+    width: 8px;
+}
+
+.column-projects::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.column-projects::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.column-projects::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 2000;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Black w/ opacity */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Example of fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 800px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+    z-index: 3;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Image Gallery Styles */
+.image-gallery {
+    flex: 2;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.gallery-images {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 100%;
+    width: 100%;
+}
+
+.gallery-image {
+    min-width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Navigation Arrows for Gallery */
+.gallery-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 20px;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.gallery-nav span {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    pointer-events: all;
+    transition: background-color 0.3s;
+}
+
+.gallery-nav span:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+/* Description Section Styles */
+.description-section {
+    flex: 1;
+    display: flex;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fafafa;
+}
+
+.stats {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 10px;
+}
+
+.stat {
+    background-color: #e0e0e0;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1em;
+    text-align: center;
+}
+
+.description {
+    flex: 3;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+}
+
+.description p {
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .grid .project {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .main-project {
+        width: 100%;
+        height: 200px;
+    }
+
+    .column-projects {
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .column-project {
+        width: 150px;
+        height: 100px;
+    }
+
+    .nav {
+        width: 150px;
+    }
+
+    .nav a {
+        font-size: 16px;
+    }
+
+    .grid .project {
+        width: 100%;
+        height: 150px;
+    }
+
+    /* Modal Adjustments for Mobile */
+    .modal-content {
+        width: 95%;
+        height: 90vh;
+    }
+
+    .image-gallery {
+        flex: 2;
+    }
+
+    .description-section {
+        flex-direction: column;
+    }
+
+    .stats {
+        padding-right: 0;
+        padding-bottom: 10px;
+    }
+
+    .description {
+        padding-left: 0;
+    }
+}
